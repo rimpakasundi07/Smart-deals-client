@@ -4,6 +4,17 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: purple;
+  --color-primary: #632ee3;
   --color-secondary: teal;
+}
+
+/* custom button overide */
+
+.btn-primary {
+  @apply bg-gradient-to-bl from-[#9400D3] to-[#4B0082]
+   border-none text-white;
+}
+
+.btn-primary:hover {
+  @apply opacity-70;
 }
