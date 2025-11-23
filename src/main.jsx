@@ -8,6 +8,7 @@ import RootLayout from "./layouts/RootLayout.jsx";
 import Home from "./components/Home/Home.jsx";
 import AllProducts from "./components/AllProducts/AllProducts.jsx";
 import AuthProvider from "./context/AuthProvider.jsx";
+import Register from "./components/Register/Register.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "allProducts",
         Component: AllProducts,
+      },
+      {
+        path: "register",
+        Component: Register,
       },
     ],
   },
