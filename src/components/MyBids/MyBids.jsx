@@ -3,7 +3,7 @@ import React from "react";
 const MyBids = () => {
   return (
     <div>
-      <p></p>
+      <p>My bids</p>
     </div>
   );
 };
