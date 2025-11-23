@@ -12,6 +12,7 @@ import Register from "./components/Register/Register.jsx";
 // import MyBids from "./components/MyBids/MyBids.jsx";
 import MyProducts from "./components/MyProducts/MyProducts.jsx";
 import MyBids from "./components/MyBids/MyBids.jsx";
+import ProductDetails from "./components/ProductDetails/ProductDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "mybids",
         element: <MyBids></MyBids>,
+      },
+      {
+        path: "productDetails/:id",
+        Component: ProductDetails,
       },
     ],
   },
