@@ -16,7 +16,7 @@ const ProductDetails = () => {
         console.log("bids for this product", data);
         setBids(data);
       });
-  });
+  }, [productId]);
 
   const handleBidModalOpen = () => {
     bidModalRef.current.showModal();
