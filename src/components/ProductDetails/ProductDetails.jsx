@@ -1,6 +1,7 @@
 import React, { use, useEffect, useRef, useState } from "react";
 import { useLoaderData } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
+import Swal from "sweetalert2";
 
 const ProductDetails = () => {
   const { _id: productId } = useLoaderData();
@@ -47,7 +48,21 @@ const ProductDetails = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("after placing bid", data);
+        if (data.insertedId) {
+          bidModalRef.current.close();
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your bid has been placed.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          // add the new bid to the state
+          newBid._id = data.insertedId;
+          const newBids = [...bids, newBid];
+          newBids.sort((a, b) => b.bid_price - a.bid_price);
+          setBids(newBids);
+        }
       });
   };
 
@@ -145,19 +160,13 @@ const ProductDetails = () => {
                         </div>
                       </div>
                       <div>
-                        <div className="font-bold">Hart Hagerty</div>
+                        <div className="font-bold">{bid.buyer_name} </div>
                         <div className="text-sm opacity-50">United States</div>
                       </div>
                     </div>
                   </td>
-                  <td>
-                    Zemlak, Daniel and Leannon
-                    <br />
-                    <span className="badge badge-ghost badge-sm">
-                      Desktop Support Technician
-                    </span>
-                  </td>
-                  <td>Purple</td>
+                  <td> {bid.buyer_email} </td>
+                  <td>{bid.bid_price}</td>
                   <th>
                     <button className="btn btn-ghost btn-xs">details</button>
                   </th>
