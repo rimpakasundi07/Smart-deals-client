@@ -23,17 +23,18 @@ const MyBids = () => {
           {/* head */}
           <thead>
             <tr>
-              <th>SL No.</th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
-              <th></th>
+              <th>#</th>
+              <th>Product</th>
+              <th>Seller</th>
+              <th>Bid Price</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {bids.map((bid, index) => (
               <tr key={bid._id}>
-                <th>{index + 1}</th>
+                <td>{index + 1}</td>
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
@@ -57,7 +58,14 @@ const MyBids = () => {
                     Community Outreach Specialist
                   </span>
                 </td>
-                <td>Indigo</td>
+                <td>{bid.bid_price}</td>
+                <td>
+                  {bid.status === "pending" ? (
+                    <div className="badge badge-warning">{bid.status} </div>
+                  ) : (
+                    <div className="badge badge-info">{bid.status} </div>
+                  )}
+                </td>
                 <th>
                   <button className="btn btn-ghost btn-xs">details</button>
                 </th>
