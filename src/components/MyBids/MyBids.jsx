@@ -33,9 +33,16 @@ const MyBids = () => {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log("after delete data", data);
-            setBids(bids.filter((bid) => bid._id !== _id)); // UI update
-            Swal.fire("Deleted!", "Your bid has been removed.", "success");
+            if (data.deletedCount) {
+              Swal.fire({
+                title: "Deleted",
+                text: "Your bid has been deleted.",
+                icon: "success",
+              });
+              //
+              const remainingBids = bids.filter((bid) => bid._id !== _id);
+              setBids(remainingBids);
+            }
           });
       }
     });
