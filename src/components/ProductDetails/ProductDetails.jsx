@@ -1,11 +1,21 @@
-import React, { use, useRef } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { useLoaderData } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
 
 const ProductDetails = () => {
   const { _id: productId } = useLoaderData();
+  const [bids, setBids] = useState([]);
   const bidModalRef = useRef(null);
   const { user } = use(AuthContext);
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/products/bids/${productId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("bids for this product", data);
+        setBids(data);
+      });
+  });
 
   const handleBidModalOpen = () => {
     bidModalRef.current.showModal();
@@ -23,6 +33,7 @@ const ProductDetails = () => {
       product: productId,
       buyer_name: name,
       buyer_email: email,
+      buyer_image: user?.photoURL,
       bid_price: bid,
       status: "pending",
     };
@@ -52,7 +63,7 @@ const ProductDetails = () => {
 
           <dialog
             ref={bidModalRef}
-            className="modal modal-bottom sm:modal-middle"
+            className="modal  modal-bottom sm:modal-middle"
           >
             <div className="modal-box">
               <h3 className="font-bold text-lg">Give the best offer!</h3>
@@ -63,24 +74,24 @@ const ProductDetails = () => {
                   <input
                     type="text"
                     name="name"
-                    className="input"
+                    className="input w-full "
                     readOnly
-                    defaultValue={user.displayName}
+                    defaultValue={user?.displayName}
                   />
                   {/* email */}
                   <label className="label">Email</label>
                   <input
                     type="email"
                     name="email"
-                    className="input"
+                    className="input w-full"
                     readOnly
-                    defaultValue={user.email}
+                    defaultValue={user?.email}
                   />
                   {/* bid amount   */}
                   <label className="label">Bid</label>
                   <input
                     type="text"
-                    className="input"
+                    className="input w-full"
                     name="bid"
                     placeholder="Your Bid"
                   />
@@ -101,7 +112,63 @@ const ProductDetails = () => {
         </div>
       </div>
       {/* bids for this product */}
-      <p></p>
+      <div className="">
+        <h3 className="text-3xl">
+          Bids for this Product:{" "}
+          <span className="text-primary">{bids.length} </span>{" "}
+        </h3>
+        <div className="overflow-x-auto">
+          <table className="table">
+            {/* head */}
+            <thead>
+              <tr>
+                <th>SL No.</th>
+                <th>Buyer Name</th>
+                <th>Buyer Email</th>
+                <th>Bid Price</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* row 1 */}
+              {bids.map((bid, index) => (
+                <tr>
+                  <th> {index + 1} </th>
+                  <td>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">
+                        <div className="mask mask-squircle h-12 w-12">
+                          <img
+                            src="https://img.daisyui.com/images/profile/demo/2@94.webp"
+                            alt="Avatar Tailwind CSS Component"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="font-bold">Hart Hagerty</div>
+                        <div className="text-sm opacity-50">United States</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    Zemlak, Daniel and Leannon
+                    <br />
+                    <span className="badge badge-ghost badge-sm">
+                      Desktop Support Technician
+                    </span>
+                  </td>
+                  <td>Purple</td>
+                  <th>
+                    <button className="btn btn-ghost btn-xs">details</button>
+                  </th>
+                </tr>
+              ))}
+
+              {/* row 2 */}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };
