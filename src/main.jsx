@@ -9,10 +9,11 @@ import Home from "./components/Home/Home.jsx";
 import AllProducts from "./components/AllProducts/AllProducts.jsx";
 import AuthProvider from "./context/AuthProvider.jsx";
 import Register from "./components/Register/Register.jsx";
-// import MyBids from "./components/MyBids/MyBids.jsx";
+
 import MyProducts from "./components/MyProducts/MyProducts.jsx";
 import MyBids from "./components/MyBids/MyBids.jsx";
 import ProductDetails from "./components/ProductDetails/ProductDetails.jsx";
+import PrivateRoute from "./Routes/PrivateRoutes.jsx";
 
 const router = createBrowserRouter([
   {
@@ -33,11 +34,19 @@ const router = createBrowserRouter([
       },
       {
         path: "myproducts",
-        element: <MyProducts></MyProducts>,
+        element: (
+          <PrivateRoute>
+            <MyProducts />
+          </PrivateRoute>
+        ),
       },
       {
         path: "mybids",
-        element: <MyBids></MyBids>,
+        element: (
+          <PrivateRoute>
+            <MyBids></MyBids>
+          </PrivateRoute>
+        ),
       },
       {
         path: "productDetails/:id",
