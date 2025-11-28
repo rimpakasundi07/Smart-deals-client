@@ -2,6 +2,7 @@ import React, { use, useEffect, useRef, useState } from "react";
 import { useLoaderData } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const ProductDetails = () => {
   const { _id: productId } = useLoaderData();
@@ -9,18 +10,45 @@ const ProductDetails = () => {
   const bidModalRef = useRef(null);
   const { user } = use(AuthContext);
 
+  // billow jhankar code
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:3000/products/bids/${productId}`)
+  //     .then((data) => {
+  //       console.log("after axios get", data);
+  //       setBids(data.data);
+  //     });
+  // }, [productId]);
+
   useEffect(() => {
-    fetch(`http://localhost:3000/products/bids/${productId}`, {
-      headers: {
-        authorization: `Bearer ${user.accessToken}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("bids for this product", data);
-        setBids(data);
+    axios
+      .get(`http://localhost:3000/products/bids/${productId}`, {
+        headers: {
+          authorization: `Bearer ${user.accessToken}`,
+        },
+      })
+      .then((res) => {
+        console.log("after axios get", res.data);
+        setBids(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, [productId, user]);
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:3000/products/bids/${productId}`, {
+  //     headers: {
+  //       authorization: `Bearer ${user.accessToken}`,
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log("bids for this product", data);
+  //       setBids(data);
+  //     });
+  // }, [productId, user]);
 
   const handleBidModalOpen = () => {
     bidModalRef.current.showModal();
@@ -151,7 +179,7 @@ const ProductDetails = () => {
             <tbody>
               {/* row 1 */}
               {bids.map((bid, index) => (
-                <tr>
+                <tr key={bid._id}>
                   <th> {index + 1} </th>
                   <td>
                     <div className="flex items-center gap-3">
