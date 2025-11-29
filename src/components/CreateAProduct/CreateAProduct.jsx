@@ -1,12 +1,15 @@
-//import axios from "axios";
+// import axios from "axios";
 import React from "react";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
-import useAxios from "../../hooks/useAxios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+// import useAxios from "../../hooks/useAxios";
 
 const CreateAProduct = () => {
   const { user } = useAuth();
-  const axiosIntance = useAxios();
+  // const axiosIntance = useAxios();
+  const axiosSecure = useAxiosSecure();
+
   const handleCreateAProduct = (e) => {
     e.preventDefault();
     const title = e.target.title.value;
@@ -38,7 +41,11 @@ const CreateAProduct = () => {
     //   }
     // });
 
-    axiosIntance.post("/products", newProduct).then((data) => {
+    // axiosIntance.post("/products", newProduct).then((data) => {
+    //   console.log(data.data);
+    // });
+
+    axiosSecure.post("/products", newProduct).then((data) => {
       console.log(data.data);
     });
   };
