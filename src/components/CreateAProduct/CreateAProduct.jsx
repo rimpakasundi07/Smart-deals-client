@@ -1,10 +1,12 @@
-import axios from "axios";
+//import axios from "axios";
 import React from "react";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
 
 const CreateAProduct = () => {
   const { user } = useAuth();
+  const axiosIntance = useAxios();
   const handleCreateAProduct = (e) => {
     e.preventDefault();
     const title = e.target.title.value;
@@ -22,21 +24,26 @@ const CreateAProduct = () => {
       email: user.email,
       seller_name: user.displayName,
     };
-    axios.post("http://localhost:3000/products", newProduct).then((data) => {
+
+    // axios.post("http://localhost:3000/products", newProduct).then((data) => {
+    //   console.log(data.data);
+    //   if (data.data.insertedId) {
+    //     Swal.fire({
+    //       position: "top-end",
+    //       icon: "success",
+    //       title: "Your product has been created.",
+    //       showConfirmButton: false,
+    //       timer: 1500,
+    //     });
+    //   }
+    // });
+
+    axiosIntance.post("/products", newProduct).then((data) => {
       console.log(data.data);
-      if (data.data.insertedId) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Your product has been created.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
     });
   };
   return (
-    <div className="w-10/12 mx-auto lg:py-15 ">
+    <div className="w-10/12 mx-auto lg:py-15">
       <h2 className="text-center py-5 font-bold lg:text-5xl text-2xl">
         Create <span className="text-[#9400D3]"> a Product</span>
       </h2>
